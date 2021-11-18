@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.app.workflowmanager.entity.GithubRepo;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = builder.build();
 
         GithubClient client = retrofit.create(GithubClient.class);
-        Call<List<GithubRepo>> call = client.reposForuser("luongbs01");
+        Call<List<GithubRepo>> call = client.reposForUser("luongbs01");
         call.enqueue(new Callback<List<GithubRepo>>() {
             @Override
             public void onResponse(Call<List<GithubRepo>> call, Response<List<GithubRepo>> response) {

@@ -4,10 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.workflowmanager.entity.GithubRepo;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -30,7 +34,9 @@ public class GithubRepoAdapter extends RecyclerView.Adapter<GithubRepoAdapter.Ho
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        holder.textViewRepo.setText(githubRepoList.get(position).getName());
+        holder.textViewLogin.setText(githubRepoList.get(position).getOwner().getLogin());
+        holder.textViewRepoName.setText(githubRepoList.get(position).getName());
+        Glide.with(holder.itemView).load(githubRepoList.get(position).getOwner().getAvatar_url()).into(holder.imageViewAvatar);
     }
 
     @Override
@@ -39,13 +45,17 @@ public class GithubRepoAdapter extends RecyclerView.Adapter<GithubRepoAdapter.Ho
     }
 
     class Holder extends RecyclerView.ViewHolder {
-        public final TextView textViewRepo;
+        public final TextView textViewLogin;
+        public final TextView textViewRepoName;
+        public final ImageView imageViewAvatar;
         final GithubRepoAdapter githubRepoAdapter;
 
         public Holder(View itemView, GithubRepoAdapter githubRepoAdapter) {
             super(itemView);
             this.githubRepoAdapter = githubRepoAdapter;
-            textViewRepo = itemView.findViewById(R.id.tv_repo);
+            textViewLogin = itemView.findViewById(R.id.tv_login);
+            textViewRepoName = itemView.findViewById(R.id.tv_repo_name);
+            imageViewAvatar = itemView.findViewById(R.id.iv_avatar);
         }
     }
 }
