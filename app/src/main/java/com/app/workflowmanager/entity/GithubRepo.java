@@ -4,8 +4,12 @@ public class GithubRepo {
 
     private int id;
     private String name;
-    private String visibility;
     private Owner owner;
+    private String description;
+    private String visibility;
+    private String created_at;
+    private String updated_at;
+
 
     public int getId() {
         return id;
@@ -15,13 +19,26 @@ public class GithubRepo {
         return name;
     }
 
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
     public String getVisibility() {
         return visibility;
     }
 
-    public Owner getOwner() {
-        return owner;
-    }
 
     public class Owner {
         private String avatar_url;

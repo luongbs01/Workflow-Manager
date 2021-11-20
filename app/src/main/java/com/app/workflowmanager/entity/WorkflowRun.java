@@ -7,6 +7,7 @@ public class WorkflowRun {
     private String event;
     private String status;
     private String conclusion;
+    private int workflow_id;
     private String html_url;
     private String created_at;
     private String updated_at;
@@ -33,6 +34,10 @@ public class WorkflowRun {
 
     public String getConclusion() {
         return conclusion;
+    }
+
+    public int getWorkflow_id() {
+        return workflow_id;
     }
 
     public String getHtml_url() {

@@ -4,6 +4,7 @@ import java.util.List;
 
 public class WorkflowJob {
     private int id;
+    private int run_id;
     private String html_url;
     private String status;
     private String conclusion;
@@ -14,6 +15,10 @@ public class WorkflowJob {
 
     public int getId() {
         return id;
+    }
+
+    public int getRun_id() {
+        return run_id;
     }
 
     public String getHtml_url() {

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?android:attr/selectableItemBackground"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_container"
@@ -29,6 +29,7 @@
         android:id="@+id/tv_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/iv_right_arrow"
         android:layout_toEndOf="@id/cv_container"
         android:text="username"
         android:textSize="18sp" />
@@ -38,10 +39,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_login"
-        android:layout_toRightOf="@id/cv_container"
+        android:layout_toStartOf="@id/iv_right_arrow"
+        android:layout_toEndOf="@id/cv_container"
         android:text="GitHubRepositories"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
+    <ImageView
+        android:id="@+id/iv_right_arrow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/right_arrow" />
 
 </RelativeLayout>
