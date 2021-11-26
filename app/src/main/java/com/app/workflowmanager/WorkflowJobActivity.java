@@ -19,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WorkflowJobActivity extends AppCompatActivity {
 
     private RecyclerView workflowJobListRecyclerView;
+    private int run_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,8 @@ public class WorkflowJobActivity extends AppCompatActivity {
         setContentView(R.layout.activity_workflow_job);
         workflowJobListRecyclerView = findViewById(R.id.rv_workflow_job_list);
         workflowJobListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowJobActivity.this));
+
+        run_id = getIntent().getIntExtra("run_id", 0);
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
@@ -35,8 +38,11 @@ public class WorkflowJobActivity extends AppCompatActivity {
 
         GithubClient client = retrofit.create(GithubClient.class);
 
-        Call<GithubWorkflowJob> workflowJobCall = client.workflowJob(getIntent().getStringExtra("owner"), getIntent().getStringExtra("repo"), getIntent().getStringExtra("run_id"));
-        //Toast.makeText(this, getIntent().getStringExtra("owner") + getIntent().getStringExtra("repo") + getIntent().getIntExtra("run_id", 0), Toast.LENGTH_LONG).show();
+        Log.d("luong", "getExtra "+run_id);
+
+        Call<GithubWorkflowJob> workflowJobCall = client.workflowJob(getIntent().getStringExtra("owner"),
+                getIntent().getStringExtra("repo"),
+                run_id);
 
         workflowJobCall.enqueue(new Callback<GithubWorkflowJob>() {
             @Override

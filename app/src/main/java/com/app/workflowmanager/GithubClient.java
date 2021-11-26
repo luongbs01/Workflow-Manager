@@ -23,5 +23,5 @@ public interface GithubClient {
     Call<GithubWorkflowRun> workflowRun(@Path("owner") String owner, @Path("repo") String repo);
 
     @GET("/repos/{owner}/{repo}/actions/runs/{run_id}/jobs")
-    Call<GithubWorkflowJob> workflowJob(@Path("owner") String owner, @Path("repo") String repo, @Path("run_id") String run_id);
+    Call<GithubWorkflowJob> workflowJob(@Path("owner") String owner, @Path("repo") String repo, @Path("run_id") int run_id);
 }

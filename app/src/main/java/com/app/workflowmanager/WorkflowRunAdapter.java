@@ -2,10 +2,13 @@ package com.app.workflowmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +40,7 @@ public class WorkflowRunAdapter extends RecyclerView.Adapter<WorkflowRunAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        holder.textViewWorkflowRunName.setText(workflowRunList.get(position).getName());
+        holder.textViewWorkflowRunName.setText(" " + workflowRunList.get(position).getId());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +49,7 @@ public class WorkflowRunAdapter extends RecyclerView.Adapter<WorkflowRunAdapter.
                 intent.putExtra("owner", owner);
                 intent.putExtra("repo", repo);
                 intent.putExtra("run_id", workflowRunList.get(position).getId());
+                Log.d("luong", "putExtra "+workflowRunList.get(position).getId());
                 holder.itemView.getContext().startActivity(intent);
             }
         });
