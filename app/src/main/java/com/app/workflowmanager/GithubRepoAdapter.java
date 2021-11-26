@@ -1,6 +1,7 @@
 package com.app.workflowmanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,16 @@ public class GithubRepoAdapter extends RecyclerView.Adapter<GithubRepoAdapter.Ho
         holder.textViewLogin.setText(githubRepoList.get(position).getOwner().getLogin());
         holder.textViewRepoName.setText(githubRepoList.get(position).getName());
         Glide.with(holder.itemView).load(githubRepoList.get(position).getOwner().getAvatar_url()).into(holder.imageViewAvatar);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.itemView.getContext(), WorkflowActivity.class);
+                intent.putExtra("owner", githubRepoList.get(position).getOwner().getLogin());
+                intent.putExtra("repo", githubRepoList.get(position).getName());
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkflowManager">
         <activity
+            android:name=".WorkflowJobActivity"
+            android:exported="false" />
+        <activity
+            android:name=".WorkflowActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
