@@ -3,7 +3,6 @@ package com.app.workflowmanager.entity;
 import java.util.List;
 
 public class WorkflowJob {
-    private int id;
     private int run_id;
     private String html_url;
     private String status;
@@ -12,10 +11,6 @@ public class WorkflowJob {
     private String completed_at;
     private String name;
     private List<Step> steps;
-
-    public int getId() {
-        return id;
-    }
 
     public int getRun_id() {
         return run_id;

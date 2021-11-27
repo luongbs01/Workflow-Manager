@@ -4,8 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Documents/Project 1/Workflow Manager/app/src/main/res/layout/activity_main.xml" value="0.2604166666666667" />
+        <entry key="..\:/Documents/Project 1/Workflow Manager/app/src/main/res/layout/activity_workflow.xml" value="0.27447916666666666" />
         <entry key="..\:/Documents/Project 1/Workflow Manager/app/src/main/res/layout/item.xml" value="0.27447916666666666" />
         <entry key="..\:/Documents/Project 1/Workflow Manager/app/src/main/res/layout/repo_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Documents/Project 1/Workflow Manager/app/src/main/res/layout/workflow_item.xml" value="0.27447916666666666" />
+        <entry key="..\:/Documents/Project 1/Workflow Manager/app/src/main/res/layout/workflow_run_item.xml" value="0.27447916666666666" />
       </map>
     </option>
   </component>

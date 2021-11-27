@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.workflowmanager.entity.Workflow;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.textViewWorkflowName.setText(workflowList.get(position).getName());
+        Glide.with(holder.itemView).load(workflowList.get(position).getBadge_url()).into(holder.imageViewBadge);
     }
 
     @Override
@@ -42,12 +45,14 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
 
     class Holder extends RecyclerView.ViewHolder {
         public final TextView textViewWorkflowName;
+        public final ImageView imageViewBadge;
         final WorkflowAdapter workflowAdapter;
 
         public Holder(View itemView, WorkflowAdapter workflowAdapter) {
             super(itemView);
             this.workflowAdapter = workflowAdapter;
             textViewWorkflowName = itemView.findViewById(R.id.tv_workflow_name);
+            imageViewBadge = itemView.findViewById(R.id.iv_badge);
         }
     }
 }

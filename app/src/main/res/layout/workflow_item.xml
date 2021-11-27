@@ -7,10 +7,16 @@
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
+    <ImageView
+        android:id="@+id/iv_badge"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
     <TextView
         android:id="@+id/tv_workflow_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_badge"
         android:text="Workflows"
         android:textColor="@color/black"
         android:textSize="20sp" />

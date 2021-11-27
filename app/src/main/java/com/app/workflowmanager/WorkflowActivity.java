@@ -1,20 +1,15 @@
 package com.app.workflowmanager;
 
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-
 import com.app.workflowmanager.entity.GithubWorkflow;
 import com.app.workflowmanager.entity.GithubWorkflowRun;
-import com.app.workflowmanager.entity.Workflow;
-import com.app.workflowmanager.entity.WorkflowRun;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +21,8 @@ public class WorkflowActivity extends AppCompatActivity {
 
     private RecyclerView workflowListRecyclerView;
     private RecyclerView workflowRunListRecyclerView;
-    private TextView textViewWorkflow;
-    private TextView textViewWorkflowRun;
+    private CardView cardViewWorkflow;
+    private CardView cardViewWorkflowRun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +32,10 @@ public class WorkflowActivity extends AppCompatActivity {
         workflowListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowActivity.this));
         workflowRunListRecyclerView = findViewById(R.id.rv_workflow_run_list);
         workflowRunListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowActivity.this));
-        textViewWorkflow = findViewById(R.id.tv_workflows);
-        textViewWorkflowRun = findViewById(R.id.tv_workflow_runs);
+        cardViewWorkflow = findViewById(R.id.cv_workflows);
+        cardViewWorkflowRun = findViewById(R.id.cv_workflow_runs);
+        cardViewWorkflow.setActivated(true);
+        cardViewWorkflowRun.setActivated(true);
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
@@ -75,27 +72,27 @@ public class WorkflowActivity extends AppCompatActivity {
             }
         });
 
-        textViewWorkflow.setOnClickListener(new View.OnClickListener() {
+        cardViewWorkflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (textViewWorkflow.isActivated()) {
-                    textViewWorkflow.setActivated(false);
+                if (cardViewWorkflow.isActivated()) {
+                    cardViewWorkflow.setActivated(false);
                     workflowListRecyclerView.setVisibility(View.VISIBLE);
                 } else {
-                    textViewWorkflow.setActivated(true);
+                    cardViewWorkflow.setActivated(true);
                     workflowListRecyclerView.setVisibility(View.GONE);
                 }
             }
         });
 
-        textViewWorkflowRun.setOnClickListener(new View.OnClickListener() {
+        cardViewWorkflowRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (textViewWorkflowRun.isActivated()) {
-                    textViewWorkflowRun.setActivated(false);
+                if (cardViewWorkflowRun.isActivated()) {
+                    cardViewWorkflowRun.setActivated(false);
                     workflowRunListRecyclerView.setVisibility(View.VISIBLE);
                 } else {
-                    textViewWorkflowRun.setActivated(true);
+                    cardViewWorkflowRun.setActivated(true);
                     workflowRunListRecyclerView.setVisibility(View.GONE);
                 }
             }

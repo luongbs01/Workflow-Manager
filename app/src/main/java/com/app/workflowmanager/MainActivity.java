@@ -1,6 +1,7 @@
 package com.app.workflowmanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +27,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         repoListRecyclerView = findViewById(R.id.rv_repo_list);
-        repoListRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        repoListRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(repoListRecyclerView.getContext(), 1);
+        repoListRecyclerView.addItemDecoration(mDividerItemDecoration);
+
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<GithubRepo>> call, Response<List<GithubRepo>> response) {
                 List<GithubRepo> repos = response.body();
                 repoListRecyclerView.setAdapter(new GithubRepoAdapter(MainActivity.this, repos));
+                if (repos == null) {
+                    Toast.makeText(MainActivity.this, "null", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

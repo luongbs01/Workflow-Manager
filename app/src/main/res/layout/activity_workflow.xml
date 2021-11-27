@@ -5,16 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".WorkflowActivity">
 
-    <TextView
-        android:id="@+id/tv_workflows"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_workflows"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="Workflows: "
-        android:textColor="@color/black"
-        android:textSize="24sp" />
+        app:cardBackgroundColor="#0000FF"
+        app:cardCornerRadius="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Workflows"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_workflow_list"
@@ -22,14 +31,22 @@
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tv_workflow_runs"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_workflow_runs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="Workflow Runs: "
-        android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="#0000FF"
+        app:cardCornerRadius="16dp">
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Workflow run"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_workflow_run_list"

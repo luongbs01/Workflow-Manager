@@ -7,6 +7,7 @@ public class Workflow {
     private String created_at;
     private String updated_at;
     private String html_url;
+    private String badge_url;
 
     public int getId() {
         return id;
@@ -30,5 +31,9 @@ public class Workflow {
 
     public String getHtml_url() {
         return html_url;
+    }
+
+    public String getBadge_url() {
+        return badge_url;
     }
 }
