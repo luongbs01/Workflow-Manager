@@ -2,8 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
     android:paddingTop="10dp"
     android:paddingBottom="10dp">
 
@@ -11,8 +9,23 @@
         android:id="@+id/tv_workflow_run_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/iv_show_more_run"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="WorkflowRun"
         android:textColor="@color/black"
         android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/iv_show_more_run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:src="@drawable/ic_show_more" />
 
 </RelativeLayout>

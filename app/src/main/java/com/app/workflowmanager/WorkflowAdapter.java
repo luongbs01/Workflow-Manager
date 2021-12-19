@@ -1,6 +1,7 @@
 package com.app.workflowmanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,24 @@ import java.util.List;
 
 public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder> {
 
+    private Context mContext;
     private List<Workflow> workflowList;
     private LayoutInflater layoutInflater;
+    private String owner;
+    private String repo;
+    private Callback mCallback;
 
-    public WorkflowAdapter(Context context, List<Workflow> workflowList) {
+    public interface Callback {
+        void onWorkflowOptionSelect(int option, int position);
+    }
+
+    public WorkflowAdapter(Context context, List<Workflow> workflowList, String owner, String repo, Callback callback) {
         layoutInflater = LayoutInflater.from(context);
+        mContext = context;
+        mCallback = callback;
         this.workflowList = workflowList;
+        this.owner = owner;
+        this.repo = repo;
     }
 
     @NonNull
@@ -36,6 +49,23 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.textViewWorkflowName.setText(workflowList.get(position).getName());
         Glide.with(holder.itemView).load(workflowList.get(position).getBadge_url()).into(holder.imageViewBadge);
+        holder.imageViewShowMoreWorkflow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomMenuDialogControl.getInstance().showMoreDialogWorkflow(mContext, selection -> mCallback.onWorkflowOptionSelect(selection, position));
+            }
+        });
+
+        holder.textViewWorkflowName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.itemView.getContext(), WorkflowRunActivity.class);
+                intent.putExtra("owner", owner);
+                intent.putExtra("repo", repo);
+                intent.putExtra("workflow_id", workflowList.get(position).getId());
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -46,6 +76,7 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
     class Holder extends RecyclerView.ViewHolder {
         public final TextView textViewWorkflowName;
         public final ImageView imageViewBadge;
+        public final ImageView imageViewShowMoreWorkflow;
         final WorkflowAdapter workflowAdapter;
 
         public Holder(View itemView, WorkflowAdapter workflowAdapter) {
@@ -53,6 +84,7 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
             this.workflowAdapter = workflowAdapter;
             textViewWorkflowName = itemView.findViewById(R.id.tv_workflow_name);
             imageViewBadge = itemView.findViewById(R.id.iv_badge);
+            imageViewShowMoreWorkflow = itemView.findViewById(R.id.iv_show_more_workflow);
         }
     }
 }
