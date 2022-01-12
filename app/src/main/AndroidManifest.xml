@@ -12,12 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WorkflowManager">
         <activity
+            android:name=".ListActivity"
+            android:exported="false" />
+        <activity
             android:name=".StepActivity"
             android:exported="false" />
         <activity
             android:name=".SignInActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".WorkflowRunActivity"
             android:exported="false" />

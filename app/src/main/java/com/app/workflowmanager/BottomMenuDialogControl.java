@@ -37,7 +37,7 @@ public class BottomMenuDialogControl {
         if (mDialog != null && mDialog.isShowing()) return;
         mDialog = new BottomMenuDialogBuilder(context, new BottomMenuAdapter(
                 new ArrayList<>(Arrays.asList(R.string.disable_workflow, R.string.enable_workflow, R.string.info)),
-                new ArrayList<>(Arrays.asList(R.drawable.ic_cancel, R.drawable.ic_delete, R.drawable.ic_info)),
+                new ArrayList<>(Arrays.asList(R.drawable.ic_cancel, R.drawable.ic_enable, R.drawable.ic_info)),
                 position -> {
                     mDialog.dismiss();
                     callback.onClick(position);

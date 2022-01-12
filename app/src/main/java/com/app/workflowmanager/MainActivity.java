@@ -86,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
                         editor.apply();
                         startActivity(intent);
                         break;
+                    case R.id.list_mode:
+                        intent = new Intent(MainActivity.this, ListActivity.class);
+                        startActivity(intent);
                 }
                 return true;
             }
@@ -97,16 +100,13 @@ public class MainActivity extends AppCompatActivity {
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(repoListRecyclerView.getContext(), 1);
         repoListRecyclerView.addItemDecoration(mDividerItemDecoration);
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request newRequest = chain.request().newBuilder()
-                        .addHeader("Authorization", "token "
-                                + getSharedPreferences(getResources().getString(R.string.preference_file_key),
-                                Context.MODE_PRIVATE).getString("access_token", ""))
-                        .build();
-                return chain.proceed(newRequest);
-            }
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(chain -> {
+            Request newRequest = chain.request().newBuilder()
+                    .addHeader("Authorization", "token "
+                            + getSharedPreferences(getResources().getString(R.string.preference_file_key),
+                            Context.MODE_PRIVATE).getString("access_token", ""))
+                    .build();
+            return chain.proceed(newRequest);
         }).build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -116,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = builder.build();
 
         GithubClient client = retrofit.create(GithubClient.class);
-        Call<List<GithubRepo>> call = client.repos(getSharedPreferences(getResources().getString(R.string.preference_file_key),
-                Context.MODE_PRIVATE).getString("access_token", ""));
+        Call<List<GithubRepo>> call = client.repos();
         call.enqueue(new Callback<List<GithubRepo>>() {
             @Override
             public void onResponse(Call<List<GithubRepo>> call, Response<List<GithubRepo>> response) {

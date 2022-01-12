@@ -3,6 +3,7 @@ package com.app.workflowmanager;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +25,8 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.Callb
         setContentView(R.layout.activity_step);
         stepListRecyclerView = findViewById(R.id.rv_step_list);
         stepListRecyclerView.setLayoutManager(new LinearLayoutManager(StepActivity.this));
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(stepListRecyclerView.getContext(), 1);
+        stepListRecyclerView.addItemDecoration(mDividerItemDecoration);
         stepList = this.getIntent().getExtras().getParcelableArrayList("step");
         adapter = new StepAdapter(this, stepList, StepActivity.this);
         stepListRecyclerView.setAdapter(adapter);

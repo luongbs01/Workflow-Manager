@@ -14,15 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.workflowmanager.entity.GithubRepo;
 import com.bumptech.glide.Glide;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 public class GithubRepoAdapter extends RecyclerView.Adapter<GithubRepoAdapter.Holder> {
 
     private List<GithubRepo> githubRepoList;
     private LayoutInflater layoutInflater;
+    private Context mContext;
+    private int sortMode = Configs.SortType.DATE;
+    private boolean ascending = false;
 
     public GithubRepoAdapter(Context context, List<GithubRepo> githubRepoList) {
         layoutInflater = LayoutInflater.from(context);
+        mContext = context;
         this.githubRepoList = githubRepoList;
     }
 
@@ -42,10 +49,12 @@ public class GithubRepoAdapter extends RecyclerView.Adapter<GithubRepoAdapter.Ho
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(holder.itemView.getContext(), WorkflowActivity.class);
-                intent.putExtra("owner", githubRepoList.get(position).getOwner().getLogin());
-                intent.putExtra("repo", githubRepoList.get(position).getName());
-                holder.itemView.getContext().startActivity(intent);
+                if (mContext instanceof MainActivity) {
+                    Intent intent = new Intent(holder.itemView.getContext(), WorkflowActivity.class);
+                    intent.putExtra("owner", githubRepoList.get(position).getOwner().getLogin());
+                    intent.putExtra("repo", githubRepoList.get(position).getName());
+                    holder.itemView.getContext().startActivity(intent);
+                }
             }
         });
     }
@@ -53,6 +62,31 @@ public class GithubRepoAdapter extends RecyclerView.Adapter<GithubRepoAdapter.Ho
     @Override
     public int getItemCount() {
         return (githubRepoList != null) ? githubRepoList.size() : 0;
+    }
+
+    public void sortList(int sortMode, boolean ascending) {
+        switch (sortMode) {
+            case Configs.SortType.DATE:
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                if (ascending)
+                    Collections.sort(githubRepoList, (repo1, repo2) -> repo1.getUpdated_at().compareTo(repo2.getUpdated_at()));
+                else
+                    Collections.sort(githubRepoList, (repo1, repo2) -> repo2.getUpdated_at().compareTo(repo1.getUpdated_at()));
+                break;
+            case Configs.SortType.NAME:
+                if (ascending)
+                    Collections.sort(githubRepoList, (repo1, repo2) -> repo1.getName().toUpperCase().compareTo(repo2.getName().toUpperCase()));
+                else
+                    Collections.sort(githubRepoList, (repo1, repo2) -> repo2.getName().toUpperCase().compareTo(repo1.getName().toUpperCase()));
+                break;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void updateRepoDataList(List<GithubRepo> repos) {
+        githubRepoList = repos;
+        sortList(sortMode, ascending);
+        notifyDataSetChanged();
     }
 
     class Holder extends RecyclerView.ViewHolder {
@@ -69,4 +103,6 @@ public class GithubRepoAdapter extends RecyclerView.Adapter<GithubRepoAdapter.Ho
             imageViewAvatar = itemView.findViewById(R.id.iv_avatar);
         }
     }
+
+
 }

@@ -1,5 +1,7 @@
 package com.app.workflowmanager;
 
+import android.database.Observable;
+
 import com.app.workflowmanager.entity.GithubRepo;
 import com.app.workflowmanager.entity.GithubWorkflow;
 import com.app.workflowmanager.entity.GithubWorkflowJob;
@@ -18,13 +20,16 @@ import retrofit2.http.Query;
 public interface GithubClient {
 
     @GET("/user/repos")
-    Call<List<GithubRepo>> repos(@Query("access_token") String accessToken);
+    Call<List<GithubRepo>> repos();
 
     @GET("/repos/{owner}/{repo}/actions/workflows")
     Call<GithubWorkflow> workflow(@Path("owner") String owner, @Path("repo") String repo);
 
     @GET("/repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs")
     Call<GithubWorkflowRun> workflowRun(@Path("owner") String owner, @Path("repo") String repo, @Path("workflow_id") int workflow_id);
+
+    @GET("/repos/{owner}/{repo}/actions/runs")
+    Call<GithubWorkflowRun> workflowRunForRepo(@Path("owner") String owner, @Path("repo") String repo);
 
     @GET("/repos/{owner}/{repo}/actions/runs/{run_id}/jobs")
     Call<GithubWorkflowJob> workflowJob(@Path("owner") String owner, @Path("repo") String repo, @Path("run_id") int run_id);

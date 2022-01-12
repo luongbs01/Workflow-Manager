@@ -3,6 +3,7 @@ package com.app.workflowmanager;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,8 @@ public class WorkflowJobActivity extends AppCompatActivity implements WorkflowJo
         setContentView(R.layout.activity_workflow_job);
         workflowJobListRecyclerView = findViewById(R.id.rv_workflow_job_list);
         workflowJobListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowJobActivity.this));
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(workflowJobListRecyclerView.getContext(), 1);
+        workflowJobListRecyclerView.addItemDecoration(mDividerItemDecoration);
 
         run_id = getIntent().getIntExtra("run_id", 0);
 
