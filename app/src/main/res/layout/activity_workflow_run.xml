@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".WorkflowRunActivity">
+    tools:context=".activity.WorkflowRunActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_workflow_runs"

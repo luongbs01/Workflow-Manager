@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.activity;
 
 import android.os.Bundle;
 
@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.R;
+import com.app.workflowmanager.adapter.StepAdapter;
+import com.app.workflowmanager.dialog.InfoDialogBuilder;
 import com.app.workflowmanager.entity.Step;
 
 import java.util.List;

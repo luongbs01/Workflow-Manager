@@ -1,10 +1,12 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.dialog;
 
 import android.content.Context;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.R;
+import com.app.workflowmanager.adapter.BottomMenuAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class BottomMenuDialogBuilder {

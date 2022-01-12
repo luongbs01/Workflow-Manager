@@ -1,10 +1,12 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.view.Window;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.app.workflowmanager.R;
 
 public class SortDialogBuilder {
     private final Dialog mDialog;

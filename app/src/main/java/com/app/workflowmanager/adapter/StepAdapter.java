@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.R;
+import com.app.workflowmanager.dialog.BottomMenuDialogControl;
 import com.app.workflowmanager.entity.Step;
 
 import java.util.List;

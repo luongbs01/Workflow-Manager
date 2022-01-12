@@ -1,7 +1,10 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+
+import com.app.workflowmanager.R;
+import com.app.workflowmanager.adapter.BottomMenuAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

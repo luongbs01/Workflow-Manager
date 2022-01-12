@@ -1,9 +1,10 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.activity;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -15,11 +16,18 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.R;
+import com.app.workflowmanager.adapter.GithubRepoAdapter;
+import com.app.workflowmanager.dialog.SortDialogBuilder;
+import com.app.workflowmanager.entity.GithubClient;
 import com.app.workflowmanager.entity.GithubRepo;
+import com.app.workflowmanager.entity.GithubWorkflow;
 import com.app.workflowmanager.entity.Step;
 import com.app.workflowmanager.entity.Workflow;
 import com.app.workflowmanager.entity.WorkflowJob;
 import com.app.workflowmanager.entity.WorkflowRun;
+import com.app.workflowmanager.utils.Configs;
+import com.app.workflowmanager.utils.Utility;
 
 import java.io.IOException;
 import java.util.List;
@@ -67,7 +75,6 @@ public class ListActivity extends AppCompatActivity {
         rvList.setLayoutManager(new LinearLayoutManager(ListActivity.this));
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(rvList.getContext(), 1);
         rvList.addItemDecoration(mDividerItemDecoration);
-
 
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,9 +132,17 @@ public class ListActivity extends AppCompatActivity {
         });
 
         new Task().execute();
+//        try {
+//            fetchData();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
-    private void fetchData() throws IOException {
+    int i = 0;
+
+    private void fetchData() throws IOException, InterruptedException {
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
                     .addHeader("Authorization", "token "
@@ -144,30 +159,73 @@ public class ListActivity extends AppCompatActivity {
         Retrofit retrofit = builder.build();
 
         GithubClient client = retrofit.create(GithubClient.class);
-        Call<List<GithubRepo>> call = client.repos();
-        Response<List<GithubRepo>> githubRepoResponse = call.execute();
 
-        if (githubRepoResponse.body().size() != 0)
-            githubRepoList = githubRepoResponse.body();
+        if (i == 0) {
+            Call<List<GithubRepo>> call = client.repos();
+            Response<List<GithubRepo>> githubRepoResponse = call.execute();
 
-//        Log.d("luong", ""+githubRepoList.size());
+            if (githubRepoResponse.body().size() != 0)
+                githubRepoList = githubRepoResponse.body();
+        }
 
+        Log.d("luong", "" + githubRepoList.size());
+        if (i < githubRepoList.size()) {
 //        for (GithubRepo githubRepo : githubRepoList) {
-//            Call<GithubWorkflow> workflowCall = client.workflow(githubRepo.getOwner().getLogin(), githubRepo.getName());
-//            Response<GithubWorkflow> response = workflowCall.execute();
-//            assert response.body() != null;
-//            if (response.body().getWorkflows().size() != 0) {
-//                workflowList.addAll(response.body().getWorkflows());
-//            }
-//        }
+            Call<GithubWorkflow> workflowCall = client.workflow(githubRepoList.get(i).getOwner().getLogin(), githubRepoList.get(i).getName());
+            Response<GithubWorkflow> response = workflowCall.execute();
+            assert response.body() != null;
+            if (response.body().getWorkflows().size() != 0) {
+                Log.d("luong workflow", "" + response.body().getWorkflows().size());
+                workflowList.addAll(response.body().getWorkflows());
+            }
+            i++;
+            Thread.sleep(2000);
+//            fetchData();
+        }
+//            break;
     }
+
+//        Observable.range(0, githubRepoList.size()).observeOn(AndroidSchedulers.mainThread())
+//                .doOnError(new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Throwable {
+//
+//                    }
+//                })
+//                .concatMap(new Function<Integer, Observable<GithubWorkflow>>() {
+//                    @Override
+//                    public Observable<GithubWorkflow> apply(Integer integer) throws Throwable {
+//                        return client.getWorkflow(githubRepoList.get(integer).getOwner().getLogin(), githubRepoList.get(integer).getName());
+//                    }
+//                })
+//                .concatMap(new Function<GithubWorkflow, Observable<Workflow>>() {
+//                               @Override
+//                               public Observable<Workflow> apply(GithubWorkflow githubWorkflow) throws Throwable {
+//                                   return (Observable<Workflow>) githubWorkflow.getWorkflows();
+//                               }
+//                           }
+//                ).toList().subscribe(new Consumer<List<Workflow>>() {
+//            @Override
+//            public void accept(List<Workflow> workflowLists) throws Throwable {
+//                workflowList = workflowLists;
+//            }
+//        });
+
 
     class Task extends AsyncTask<String, Void, Boolean> {
 
         protected Boolean doInBackground(String... urls) {
             try {
                 fetchData();
-            } catch (IOException e) {
+//                for (GithubRepo githubRepo : githubRepoList) {
+//                    Call<GithubWorkflow> workflowCall = client.workflow(githubRepo.getOwner().getLogin(), githubRepo.getName());
+//                    Response<GithubWorkflow> response = workflowCall.execute();
+//                    assert response.body() != null;
+//                    if (response.body().getWorkflows().size() != 0) {
+//                        workflowList.addAll(response.body().getWorkflows());
+//                    }
+//                }
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
             return true;
@@ -180,6 +238,7 @@ public class ListActivity extends AppCompatActivity {
             rvList.setAdapter(mAdapter);
         }
     }
+
 
 }
 

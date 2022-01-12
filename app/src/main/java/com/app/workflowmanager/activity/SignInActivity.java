@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.app.workflowmanager.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class SignInActivity extends AppCompatActivity {

@@ -1,10 +1,11 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.dialog;
 
 import android.content.Context;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.app.workflowmanager.R;
 import com.app.workflowmanager.entity.Step;
 import com.app.workflowmanager.entity.Workflow;
 import com.app.workflowmanager.entity.WorkflowJob;

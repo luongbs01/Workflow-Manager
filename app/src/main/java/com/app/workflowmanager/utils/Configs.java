@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.utils;
 
 public class Configs {
     public static class SortByType {

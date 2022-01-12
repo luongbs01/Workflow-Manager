@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,13 +21,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.R;
+import com.app.workflowmanager.adapter.GithubRepoAdapter;
+import com.app.workflowmanager.entity.GithubClient;
 import com.app.workflowmanager.entity.GithubRepo;
 import com.google.android.material.navigation.NavigationView;
 
-import java.io.IOException;
 import java.util.List;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Call;

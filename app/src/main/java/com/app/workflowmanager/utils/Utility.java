@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.utils;
 
 import com.app.workflowmanager.entity.GithubRepo;
 

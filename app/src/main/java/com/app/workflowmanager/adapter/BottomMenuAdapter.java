@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.workflowmanager.R;
 
 import org.jetbrains.annotations.NotNull;
 

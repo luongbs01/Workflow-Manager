@@ -1,4 +1,4 @@
-package com.app.workflowmanager;
+package com.app.workflowmanager.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.R;
+import com.app.workflowmanager.activity.MainActivity;
+import com.app.workflowmanager.activity.WorkflowActivity;
 import com.app.workflowmanager.entity.GithubRepo;
+import com.app.workflowmanager.utils.Configs;
 import com.bumptech.glide.Glide;
 
 import java.text.DateFormat;
