@@ -18,20 +18,21 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface GithubClient {
 
-    @Headers("Accept: application/json")
-    @POST("login/oauth/access_token")
-    @FormUrlEncoded
-    Call<AccessToken> getAccessToken(
-            @Field("client_id") String clientId,
-            @Field("client_secret") String clientSecret,
-            @Field("code") String code
-    );
+//    @Headers("Accept: application/json")
+//    @POST("login/oauth/access_token")
+//    @FormUrlEncoded
+//    Call<AccessToken> getAccessToken(
+//            @Field("client_id") String clientId,
+//            @Field("client_secret") String clientSecret,
+//            @Field("code") String code
+//    );
 
     @GET("/user/repos")
-    Call<List<GithubRepo>> repos();
+    Call<List<GithubRepo>> repos(@Query("access_token") String accessToken);
 
     @GET("/repos/{owner}/{repo}/actions/workflows")
     Call<GithubWorkflow> workflow(@Path("owner") String owner, @Path("repo") String repo);
@@ -54,4 +55,6 @@ public interface GithubClient {
     @DELETE("/repos/{owner}/{repo}/actions/runs/{run_id}")
     Call<String> deleteWorkflowRun(@Path("owner") String owner, @Path("repo") String repo, @Path("run_id") int run_id);
 
+    @POST("/repos/{owner}/{repo}/actions/runs/{run_id}/rerun")
+    Call<String> rerunWorkflowRun(@Path("owner") String owner, @Path("repo") String repo, @Path("run_id") int run_id);
 }

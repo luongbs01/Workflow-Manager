@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.workflowmanager.entity.AccessToken;
+import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,24 +24,32 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignInActivity extends AppCompatActivity {
 
     private Button buttonSignIn;
-    private boolean goToMain = false;
+    private TextInputEditText tokenInputEditText;
+//    private boolean goToMain = false;
 
-    private String clientId = "45952397fecad6e25e33";
-    private String clientSecret = "44f8baa05cb20db188ed2b93e47bc669876d3d53";
-    private String redirectUri = "futurestudio://callback";
+//    private String clientId = "45952397fecad6e25e33";
+//    private String clientSecret = "44f8baa05cb20db188ed2b93e47bc669876d3d53";
+//    private String redirectUri = "futurestudio://callback";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //goToMain();
         setContentView(R.layout.activity_sign_in);
-        goToMain();
         buttonSignIn = findViewById(R.id.bt_sign_in);
+        tokenInputEditText = findViewById(R.id.token_input_edit_text);
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/login/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri));
-                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW,
+//                        Uri.parse("https://github.com/login/oauth/authorize" + "?client_id=" + clientId + "&redirect_uri=" + redirectUri));
+//                startActivity(intent);
+                SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key),
+                        Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("access_token", tokenInputEditText.getText().toString());
+                editor.apply();
+                goToMain();
             }
         });
     }
@@ -48,48 +57,53 @@ public class SignInActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!goToMain) {
-            goToMain();
-        }
-        Uri uri = getIntent().getData();
-        if (uri != null && uri.toString().startsWith(redirectUri)) {
-            String code = uri.getQueryParameter("code");
-
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl("https://github.com")
-                    .addConverterFactory(GsonConverterFactory.create());
-
-            Retrofit retrofit = builder.build();
-
-            GithubClient client = retrofit.create(GithubClient.class);
-            Call<AccessToken> accessTokenCall = client.getAccessToken(clientId, clientSecret, code);
-            accessTokenCall.enqueue(new Callback<AccessToken>() {
-                @Override
-                public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
-                    SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key),
-                            Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("access_token", response.body().getAccessToken());
-                    editor.apply();
-
-                    Toast.makeText(SignInActivity.this, "Signed in successfully", Toast.LENGTH_SHORT).show();
-                    goToMain();
-                }
-
-                @Override
-                public void onFailure(Call<AccessToken> call, Throwable t) {
-                    Log.d("luong", t.toString());
-                }
-            });
-        }
+//        if (!goToMain) {
+//            goToMain();
+//        }
+//        Uri uri = getIntent().getData();
+//        if (uri != null && uri.toString().startsWith(redirectUri)) {
+//            String code = uri.getQueryParameter("code");
+//
+//            Retrofit.Builder builder = new Retrofit.Builder()
+//                    .baseUrl("https://github.com")
+//                    .addConverterFactory(GsonConverterFactory.create());
+//
+//            Retrofit retrofit = builder.build();
+//
+//            GithubClient client = retrofit.create(GithubClient.class);
+//            Call<AccessToken> accessTokenCall = client.getAccessToken(clientId, clientSecret, code);
+//            accessTokenCall.enqueue(new Callback<AccessToken>() {
+//                @Override
+//                public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+//                    SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key),
+//                            Context.MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedPref.edit();
+//                    editor.putString("access_token", response.body().getAccessToken());
+//                    editor.apply();
+//
+//                    Toast.makeText(SignInActivity.this, "Signed in successfully", Toast.LENGTH_SHORT).show();
+//                    goToMain();
+//                }
+//
+//                @Override
+//                public void onFailure(Call<AccessToken> call, Throwable t) {
+//                    Log.d("luong", t.toString());
+//                }
+//            });
+//        }
     }
 
     private void goToMain() {
         SharedPreferences sharedPref = getSharedPreferences(getResources().getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPref.edit();
+//        editor.putString("access_token", null);
+//        editor.apply();
         String accessToken = sharedPref.getString("access_token", "");
         if (accessToken != null && !accessToken.equals("")) {
-            goToMain = true;
+            Log.d("luong", "sign in: " + getSharedPreferences(getResources().getString(R.string.preference_file_key),
+                    Context.MODE_PRIVATE).getString("access_token", ""));
+//            goToMain = true;
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }

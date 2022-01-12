@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Workflow Manager</string>
     <string name="preference_file_key">com.app.workflowmanager.sharedprefs</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="disable_workflow">Disable workflow</string>
     <string name="enable_workflow">Enable workflow</string>
     <string name="workflow_usage">Workflow usage</string>
     <string name="cancel_workflow_run">Cancel workflow run</string>
     <string name="delete_workflow_run">Delete workflow run</string>
-    <string name="workflow_run_usage">Workflow run usage</string>
+    <string name="rerun_workflow">Rerun workflow</string>
+    <string name="info">Info</string>
 </resources>

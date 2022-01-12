@@ -24,8 +24,8 @@ public class BottomMenuDialogControl {
     public void showMoreDialogWorkflowRun(Context context, BottomMenuAdapter.Callback callback) {
         if (mDialog != null && mDialog.isShowing()) return;
         mDialog = new BottomMenuDialogBuilder(context, new BottomMenuAdapter(
-                new ArrayList<>(Arrays.asList(R.string.cancel_workflow_run, R.string.delete_workflow_run, R.string.workflow_run_usage)),
-                new ArrayList<>(Arrays.asList(R.drawable.ic_cancel, R.drawable.ic_delete, R.drawable.ic_info)),
+                new ArrayList<>(Arrays.asList(R.string.delete_workflow_run, R.string.info)),
+                new ArrayList<>(Arrays.asList(R.drawable.ic_delete, R.drawable.ic_info)),
                 position -> {
                     mDialog.dismiss();
                     callback.onClick(position);
@@ -36,8 +36,32 @@ public class BottomMenuDialogControl {
     public void showMoreDialogWorkflow(Context context, BottomMenuAdapter.Callback callback) {
         if (mDialog != null && mDialog.isShowing()) return;
         mDialog = new BottomMenuDialogBuilder(context, new BottomMenuAdapter(
-                new ArrayList<>(Arrays.asList(R.string.disable_workflow, R.string.enable_workflow, R.string.workflow_usage)),
+                new ArrayList<>(Arrays.asList(R.string.disable_workflow, R.string.enable_workflow, R.string.info)),
                 new ArrayList<>(Arrays.asList(R.drawable.ic_cancel, R.drawable.ic_delete, R.drawable.ic_info)),
+                position -> {
+                    mDialog.dismiss();
+                    callback.onClick(position);
+                })).build();
+        mDialog.show();
+    }
+
+    public void showMoreDialogWorkflowJob(Context context, BottomMenuAdapter.Callback callback) {
+        if (mDialog != null && mDialog.isShowing()) return;
+        mDialog = new BottomMenuDialogBuilder(context, new BottomMenuAdapter(
+                new ArrayList<>(Arrays.asList(R.string.info)),
+                new ArrayList<>(Arrays.asList(R.drawable.ic_info)),
+                position -> {
+                    mDialog.dismiss();
+                    callback.onClick(position);
+                })).build();
+        mDialog.show();
+    }
+
+    public void showMoreDialogStep(Context context, BottomMenuAdapter.Callback callback) {
+        if (mDialog != null && mDialog.isShowing()) return;
+        mDialog = new BottomMenuDialogBuilder(context, new BottomMenuAdapter(
+                new ArrayList<>(Arrays.asList(R.string.info)),
+                new ArrayList<>(Arrays.asList(R.drawable.ic_info)),
                 position -> {
                     mDialog.dismiss();
                     callback.onClick(position);

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,6 +49,8 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
         setContentView(R.layout.activity_workflow);
         workflowListRecyclerView = findViewById(R.id.rv_workflow_list);
         workflowListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowActivity.this));
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(workflowListRecyclerView.getContext(), 1);
+        workflowListRecyclerView.addItemDecoration(mDividerItemDecoration);
         cardViewWorkflow = findViewById(R.id.cv_workflows);
         cardViewWorkflow.setActivated(true);
 
@@ -70,6 +74,8 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
         retrofit = builder.build();
+//        Log.d("luong", "workflow: " + getSharedPreferences(getResources().getString(R.string.preference_file_key),
+//                Context.MODE_PRIVATE).getString("access_token", ""));
 
         client = retrofit.create(GithubClient.class);
 
@@ -79,26 +85,29 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
             public void onResponse(Call<GithubWorkflow> call, Response<GithubWorkflow> response) {
                 workflowList = response.body().getWorkflows();
                 workflowListRecyclerView.setAdapter(new WorkflowAdapter(WorkflowActivity.this, workflowList, owner, repo, WorkflowActivity.this));
+                if (workflowList.size() == 0) {
+                    Toast.makeText(WorkflowActivity.this, "No workflow", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<GithubWorkflow> call, Throwable t) {
-
+                Toast.makeText(WorkflowActivity.this, "No workflow", Toast.LENGTH_LONG).show();
             }
         });
 
-        cardViewWorkflow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (cardViewWorkflow.isActivated()) {
-                    cardViewWorkflow.setActivated(false);
-                    workflowListRecyclerView.setVisibility(View.VISIBLE);
-                } else {
-                    cardViewWorkflow.setActivated(true);
-                    workflowListRecyclerView.setVisibility(View.GONE);
-                }
-            }
-        });
+//        cardViewWorkflow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (cardViewWorkflow.isActivated()) {
+//                    cardViewWorkflow.setActivated(false);
+//                    workflowListRecyclerView.setVisibility(View.VISIBLE);
+//                } else {
+//                    cardViewWorkflow.setActivated(true);
+//                    workflowListRecyclerView.setVisibility(View.GONE);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -109,12 +118,20 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
                 disableWorkflowCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.code() / 100 == 2) {
+                            Toast.makeText(WorkflowActivity.this, "Succeeded", Toast.LENGTH_LONG).show();
+                            workflowList.get(position).setState("inactive");
+                            workflowListRecyclerView.setAdapter(new WorkflowAdapter(WorkflowActivity.this, workflowList, owner, repo, WorkflowActivity.this));
+                        } else {
+                            Toast.makeText(WorkflowActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                        }
                         Log.d("luong", response.toString());
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
                         Log.d("luong", t.toString());
+                        Toast.makeText(WorkflowActivity.this, "Failed", Toast.LENGTH_LONG).show();
                     }
                 });
                 break;
@@ -123,16 +140,26 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
                 enableWorkflowCall.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
+                        if (response.code() / 100 == 2) {
+                            Toast.makeText(WorkflowActivity.this, "Succeeded", Toast.LENGTH_LONG).show();
+                            workflowList.get(position).setState("active");
+                            workflowListRecyclerView.setAdapter(new WorkflowAdapter(WorkflowActivity.this, workflowList, owner, repo, WorkflowActivity.this));
+                        } else {
+                            Toast.makeText(WorkflowActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                        }
                         Log.d("luong", response.toString());
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
                         Log.d("luong", t.toString());
+                        Toast.makeText(WorkflowActivity.this, "Failed", Toast.LENGTH_LONG).show();
                     }
                 });
                 break;
             case 2:
+                new InfoDialogBuilder<>(this, workflowList.get(position)).build().show();
+                break;
 
         }
     }

@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".WorkflowRunActivity">
+    tools:context=".StepActivity">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_workflow_runs"
+        android:id="@+id/cv_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#0000FF"
@@ -20,13 +20,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="Workflow run"
+            android:text="Step"
             android:textColor="@color/white"
             android:textSize="24sp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_workflow_run_list"
+        android:id="@+id/rv_step_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp" />

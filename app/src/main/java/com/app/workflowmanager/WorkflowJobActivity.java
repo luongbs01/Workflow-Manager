@@ -9,6 +9,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.app.workflowmanager.entity.GithubWorkflowJob;
+import com.app.workflowmanager.entity.WorkflowJob;
+import com.app.workflowmanager.entity.WorkflowRun;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,9 +20,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class WorkflowJobActivity extends AppCompatActivity {
+public class WorkflowJobActivity extends AppCompatActivity implements WorkflowJobAdapter.Callback {
 
     private RecyclerView workflowJobListRecyclerView;
+    private List<WorkflowJob> workflowJobList;
     private int run_id;
 
     @Override
@@ -44,7 +49,8 @@ public class WorkflowJobActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GithubWorkflowJob> call, Response<GithubWorkflowJob> response) {
                 assert response.body() != null;
-                workflowJobListRecyclerView.setAdapter(new WorkflowJobAdapter(WorkflowJobActivity.this, response.body().getJobs()));
+                workflowJobList = response.body().getJobs();
+                workflowJobListRecyclerView.setAdapter(new WorkflowJobAdapter(WorkflowJobActivity.this, workflowJobList, WorkflowJobActivity.this));
             }
 
             @Override
@@ -52,5 +58,14 @@ public class WorkflowJobActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onWorkflowJobOptionSelect(int option, int position) {
+        switch (option) {
+            case 0:
+                new InfoDialogBuilder<>(this, workflowJobList.get(position)).build().show();
+                break;
+        }
     }
 }

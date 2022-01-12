@@ -6,15 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".SignInActivity">
 
-    <Button
-        android:id="@+id/bt_sign_in"
-        android:text="Sign in with github"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginBottom="20dp"
+        android:text="Enter your personal access token here"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/token_input_edit_text"
+        app:layout_constraintStart_toStartOf="@id/token_input_edit_text" />
+
+
+    <Button
+        android:id="@+id/bt_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign in"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/token_input_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@id/bt_sign_in"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

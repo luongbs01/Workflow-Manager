@@ -4,6 +4,7 @@ public class Workflow {
     private int id;
     private String name;
     private String path;
+    private String state;
     private String created_at;
     private String updated_at;
     private String html_url;
@@ -19,6 +20,14 @@ public class Workflow {
 
     public String getPath() {
         return path;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getCreated_at() {

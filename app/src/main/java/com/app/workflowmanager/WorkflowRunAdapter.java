@@ -46,8 +46,17 @@ public class WorkflowRunAdapter extends RecyclerView.Adapter<WorkflowRunAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        holder.textViewWorkflowRunName.setText(workflowRunList.get(position).getName() + " #" + workflowRunList.get(position).getRun_number());
-
+        if (workflowRunList.get(position).getEvent().equals("push")) {
+            holder.textViewWorkflowRunName.setText(workflowRunList.get(position).getHeadCommit().getMessage());
+        } else
+            holder.textViewWorkflowRunName.setText(workflowRunList.get(position).getName());
+        holder.textViewWorkflowRunNumber.setText(workflowRunList.get(position).getName() + " #" + workflowRunList.get(position).getRun_number());
+        if (workflowRunList.get(position).getStatus().equals("completed"))
+            holder.imageViewStatus.setImageDrawable(mContext.getDrawable(R.drawable.check));
+        else if (workflowRunList.get(position).getStatus().equals("in_progress"))
+            holder.imageViewStatus.setImageDrawable(mContext.getDrawable(R.drawable.work_in_progress));
+        else if (workflowRunList.get(position).getStatus().equals("queued"))
+            holder.imageViewStatus.setImageDrawable(mContext.getDrawable(R.drawable.queue));
         holder.imageViewShowMoreRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +64,7 @@ public class WorkflowRunAdapter extends RecyclerView.Adapter<WorkflowRunAdapter.
             }
         });
 
-        holder.textViewWorkflowRunName.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.itemView.getContext(), WorkflowJobActivity.class);
@@ -74,14 +83,18 @@ public class WorkflowRunAdapter extends RecyclerView.Adapter<WorkflowRunAdapter.
 
     class Holder extends RecyclerView.ViewHolder {
         public final TextView textViewWorkflowRunName;
+        public final TextView textViewWorkflowRunNumber;
         public final ImageView imageViewShowMoreRun;
+        public final ImageView imageViewStatus;
         final WorkflowRunAdapter workflowRunAdapter;
 
         public Holder(View itemView, WorkflowRunAdapter workflowRunAdapter) {
             super(itemView);
             this.workflowRunAdapter = workflowRunAdapter;
             textViewWorkflowRunName = itemView.findViewById(R.id.tv_workflow_run_name);
+            textViewWorkflowRunNumber = itemView.findViewById(R.id.tv_workflow_run_number);
             imageViewShowMoreRun = itemView.findViewById(R.id.iv_show_more_run);
+            imageViewStatus = itemView.findViewById(R.id.iv_status);
         }
     }
 }

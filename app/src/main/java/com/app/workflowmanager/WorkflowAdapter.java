@@ -48,7 +48,12 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         holder.textViewWorkflowName.setText(workflowList.get(position).getName());
-        Glide.with(holder.itemView).load(workflowList.get(position).getBadge_url()).into(holder.imageViewBadge);
+        if (workflowList.get(position).getState().equals("active")) {
+            holder.imageViewBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.workflow));
+        } else {
+            holder.imageViewBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.caution));
+        }
+
         holder.imageViewShowMoreWorkflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,7 +61,7 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
             }
         });
 
-        holder.textViewWorkflowName.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.itemView.getContext(), WorkflowRunActivity.class);

@@ -1,17 +1,30 @@
 package com.app.workflowmanager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.app.workflowmanager.entity.GithubRepo;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,12 +40,59 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ConstraintLayout noRepoConstraintLayout;
+    private Button signInAgainButton;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
+    private Toolbar toolbar;
+    private NavigationView navigationView;
     private RecyclerView repoListRecyclerView;
+    private SharedPreferences sharedPreferences;
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences(getResources().getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE);
+        noRepoConstraintLayout = findViewById(R.id.layout_no_repo);
+        signInAgainButton = findViewById(R.id.bt_sign_in_again);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        drawerLayout = findViewById(R.id.activity_main_drawer);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem view) {
+                view.setCheckable(false);
+                drawerLayout.closeDrawers();
+                Intent intent;
+                switch (view.getItemId()) {
+                    case R.id.log_out:
+                        intent = new Intent(MainActivity.this, SignInActivity.class);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("access_token", null);
+                        editor.apply();
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
+
         repoListRecyclerView = findViewById(R.id.rv_repo_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         repoListRecyclerView.setLayoutManager(layoutManager);
@@ -58,14 +118,15 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit = builder.build();
 
         GithubClient client = retrofit.create(GithubClient.class);
-        Call<List<GithubRepo>> call = client.repos();
+        Call<List<GithubRepo>> call = client.repos(getSharedPreferences(getResources().getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE).getString("access_token", ""));
         call.enqueue(new Callback<List<GithubRepo>>() {
             @Override
             public void onResponse(Call<List<GithubRepo>> call, Response<List<GithubRepo>> response) {
                 List<GithubRepo> repos = response.body();
                 repoListRecyclerView.setAdapter(new GithubRepoAdapter(MainActivity.this, repos));
                 if (repos == null) {
-                    Toast.makeText(MainActivity.this, "null", Toast.LENGTH_LONG).show();
+                    DisplayLayout();
                 }
             }
 
@@ -74,5 +135,30 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void DisplayLayout() {
+        noRepoConstraintLayout.setVisibility(View.VISIBLE);
+        signInAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 }

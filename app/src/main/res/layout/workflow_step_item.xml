@@ -8,24 +8,24 @@
     android:paddingBottom="10dp">
 
     <ImageView
-        android:id="@+id/iv_badge"
+        android:id="@+id/iv_step_status"
         android:layout_width="24dp"
         android:layout_height="24dp" />
 
     <TextView
-        android:id="@+id/tv_workflow_name"
+        android:id="@+id/tv_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
-        android:layout_toLeftOf="@id/iv_show_more_workflow"
-        android:layout_toRightOf="@id/iv_badge"
-        android:text="Workflows"
+        android:layout_toLeftOf="@id/iv_show_more_step"
+        android:layout_toRightOf="@id/iv_step_status"
+        android:text="Step"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/iv_show_more_workflow"
+        android:id="@+id/iv_show_more_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
