@@ -3,8 +3,6 @@ package com.app.workflowmanager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.workflowmanager.entity.WorkflowJob;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

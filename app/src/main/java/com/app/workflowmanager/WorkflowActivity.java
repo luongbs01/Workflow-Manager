@@ -3,7 +3,6 @@ package com.app.workflowmanager;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.workflowmanager.entity.GithubWorkflow;
-import com.app.workflowmanager.entity.GithubWorkflowRun;
 import com.app.workflowmanager.entity.Workflow;
-import com.app.workflowmanager.entity.WorkflowRun;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,8 +71,6 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
         retrofit = builder.build();
-//        Log.d("luong", "workflow: " + getSharedPreferences(getResources().getString(R.string.preference_file_key),
-//                Context.MODE_PRIVATE).getString("access_token", ""));
 
         client = retrofit.create(GithubClient.class);
 
@@ -96,18 +91,6 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
             }
         });
 
-//        cardViewWorkflow.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (cardViewWorkflow.isActivated()) {
-//                    cardViewWorkflow.setActivated(false);
-//                    workflowListRecyclerView.setVisibility(View.VISIBLE);
-//                } else {
-//                    cardViewWorkflow.setActivated(true);
-//                    workflowListRecyclerView.setVisibility(View.GONE);
-//                }
-//            }
-//        });
     }
 
     @Override

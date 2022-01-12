@@ -1,16 +1,13 @@
 package com.app.workflowmanager;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.app.workflowmanager.entity.GithubWorkflowJob;
 import com.app.workflowmanager.entity.WorkflowJob;
-import com.app.workflowmanager.entity.WorkflowRun;
 
 import java.util.List;
 

@@ -1,16 +1,15 @@
 package com.app.workflowmanager;
 
+import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.app.workflowmanager.entity.GithubWorkflowRun;
 import com.app.workflowmanager.entity.WorkflowRun;
@@ -70,8 +69,6 @@ public class WorkflowRunActivity extends AppCompatActivity implements WorkflowRu
                 return chain.proceed(newRequest);
             }
         }).build();
-//        Log.d("luong", "run: " + getSharedPreferences(getResources().getString(R.string.preference_file_key),
-//                Context.MODE_PRIVATE).getString("access_token", ""));
         builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
                 .client(okHttpClient)
@@ -99,18 +96,6 @@ public class WorkflowRunActivity extends AppCompatActivity implements WorkflowRu
             }
         });
 
-//        cardViewWorkflowRun.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (cardViewWorkflowRun.isActivated()) {
-//                    cardViewWorkflowRun.setActivated(false);
-//                    workflowRunListRecyclerView.setVisibility(View.VISIBLE);
-//                } else {
-//                    cardViewWorkflowRun.setActivated(true);
-//                    workflowRunListRecyclerView.setVisibility(View.GONE);
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -139,46 +124,6 @@ public class WorkflowRunActivity extends AppCompatActivity implements WorkflowRu
                     }
                 });
                 break;
-//            case 1:
-//                Call<String> cancelWorkflowRunCall = client.cancelWorkflowRun(owner, repo, workflowRunList.get(position).getId());
-//                cancelWorkflowRunCall.enqueue(new Callback<String>() {
-//                    @Override
-//                    public void onResponse(Call<String> call, Response<String> response) {
-//                        if (response.code() / 100 == 2) {
-//                            Toast.makeText(WorkflowRunActivity.this, "Succeeded", Toast.LENGTH_LONG).show();
-//                        } else {
-//                            Toast.makeText(WorkflowRunActivity.this, "Failed", Toast.LENGTH_LONG).show();
-//                        }
-//                        Log.d("luong", response.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<String> call, Throwable t) {
-//                        Toast.makeText(WorkflowRunActivity.this, "Failed", Toast.LENGTH_LONG).show();
-//                        Log.d("luong", t.toString());
-//                    }
-//                });
-//                break;
-//            case 2:
-//                Call<String> rerunWorkflowRunCall = client.rerunWorkflowRun(owner, repo, workflowRunList.get(position).getId());
-//                rerunWorkflowRunCall.enqueue(new Callback<String>() {
-//                    @Override
-//                    public void onResponse(Call<String> call, Response<String> response) {
-//                        if (response.code() / 100 == 2) {
-//                            Toast.makeText(WorkflowRunActivity.this, "Succeeded", Toast.LENGTH_LONG).show();
-//                        } else {
-//                            Toast.makeText(WorkflowRunActivity.this, "Failed", Toast.LENGTH_LONG).show();
-//                        }
-//                        Log.d("luong", response.toString());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<String> call, Throwable t) {
-//                        Toast.makeText(WorkflowRunActivity.this, "Failed", Toast.LENGTH_LONG).show();
-//                        Log.d("luong", t.toString());
-//                    }
-//                });
-//                break;
             case 1:
                 new InfoDialogBuilder<>(this, workflowRunList.get(position)).build().show();
                 break;
