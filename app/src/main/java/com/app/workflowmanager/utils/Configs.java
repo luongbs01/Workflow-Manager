@@ -15,4 +15,11 @@ public class Configs {
         public static final boolean ASCENDING = true;
         public static final boolean DESCENDING = false;
     }
+
+    public static class ViewMode {
+        public static final int REPOSITORY = 0;
+        public static final int WORKFLOW = 1;
+        public static final int WORKFLOW_RUN = 2;
+        public static final int WORKFLOW_JOB = 3;
+    }
 }

@@ -2,6 +2,7 @@ package com.app.workflowmanager.entity;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -17,14 +18,14 @@ public interface GithubClient {
     @GET("/repos/{owner}/{repo}/actions/workflows")
     Call<GithubWorkflow> workflow(@Path("owner") String owner, @Path("repo") String repo);
 
-//    @GET("/repos/{owner}/{repo}/actions/workflows")
-//    Observable<GithubWorkflow> getWorkflow(@Path("owner") String owner, @Path("repo") String repo);
+    @GET("/repos/{owner}/{repo}/actions/workflows")
+    Observable<GithubWorkflow> getWorkflow(@Path("owner") String owner, @Path("repo") String repo);
 
     @GET("/repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs")
     Call<GithubWorkflowRun> workflowRun(@Path("owner") String owner, @Path("repo") String repo, @Path("workflow_id") int workflow_id);
 
     @GET("/repos/{owner}/{repo}/actions/runs")
-    Call<GithubWorkflowRun> workflowRunForRepo(@Path("owner") String owner, @Path("repo") String repo);
+    Observable<GithubWorkflowRun> getWorkflowRun(@Path("owner") String owner, @Path("repo") String repo);
 
     @GET("/repos/{owner}/{repo}/actions/runs/{run_id}/jobs")
     Call<GithubWorkflowJob> workflowJob(@Path("owner") String owner, @Path("repo") String repo, @Path("run_id") int run_id);

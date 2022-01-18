@@ -31,6 +31,12 @@ public class WorkflowRunAdapter extends RecyclerView.Adapter<WorkflowRunAdapter.
         void onWorkflowRunOptionSelect(int option, int position);
     }
 
+    public WorkflowRunAdapter(Context context, List<WorkflowRun> workflowRunList) {
+        layoutInflater = LayoutInflater.from(context);
+        mContext = context;
+        this.workflowRunList = workflowRunList;
+    }
+
     public WorkflowRunAdapter(Context context, List<WorkflowRun> workflowRunList, String owner, String repo, Callback callback) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;

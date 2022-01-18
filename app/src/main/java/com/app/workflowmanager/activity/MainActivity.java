@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private RecyclerView repoListRecyclerView;
     private SharedPreferences sharedPreferences;
+    private List<GithubRepo> repoList;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.list_mode:
                         intent = new Intent(MainActivity.this, ListActivity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putParcelableArrayList("repoList", (ArrayList) repoList);
+//                        intent.putExtras(bundle);
                         startActivity(intent);
                 }
                 return true;
@@ -121,9 +125,9 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<GithubRepo>>() {
             @Override
             public void onResponse(Call<List<GithubRepo>> call, Response<List<GithubRepo>> response) {
-                List<GithubRepo> repos = response.body();
-                repoListRecyclerView.setAdapter(new GithubRepoAdapter(MainActivity.this, repos));
-                if (repos == null) {
+                repoList = response.body();
+                repoListRecyclerView.setAdapter(new GithubRepoAdapter(MainActivity.this, repoList));
+                if (repoList == null) {
                     DisplayLayout();
                 }
             }

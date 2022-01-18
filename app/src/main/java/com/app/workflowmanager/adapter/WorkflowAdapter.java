@@ -31,6 +31,12 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
         void onWorkflowOptionSelect(int option, int position);
     }
 
+    public WorkflowAdapter(Context context, List<Workflow> workflowList) {
+        layoutInflater = LayoutInflater.from(context);
+        mContext = context;
+        this.workflowList = workflowList;
+    }
+
     public WorkflowAdapter(Context context, List<Workflow> workflowList, String owner, String repo, Callback callback) {
         layoutInflater = LayoutInflater.from(context);
         mContext = context;
