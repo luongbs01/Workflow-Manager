@@ -11,7 +11,7 @@ import com.app.workflowmanager.R;
 public class ViewModeDialogBuilder {
 
     private final Dialog mDialog;
-    private RadioButton rbRepository, rbWorkflow, rbWorkflowRun, rbWorkflowJob;
+    private RadioButton rbRepository, rbWorkflow, rbWorkflowRun;
     private RadioGroup rgUnit;
 
     public interface OkButtonClickListener {
@@ -26,7 +26,6 @@ public class ViewModeDialogBuilder {
         rbRepository = mDialog.findViewById(R.id.rb_repository);
         rbWorkflow = mDialog.findViewById(R.id.rb_workflow);
         rbWorkflowRun = mDialog.findViewById(R.id.rb_workflow_run);
-        rbWorkflowJob = mDialog.findViewById(R.id.rb_workflow_job);
 
         rgUnit = mDialog.findViewById(R.id.rg_unit);
 
@@ -39,9 +38,6 @@ public class ViewModeDialogBuilder {
                 break;
             case 3:
                 rbWorkflowRun.setChecked(true);
-                break;
-            case 4:
-                rbWorkflowJob.setChecked(true);
                 break;
         }
 
@@ -59,9 +55,6 @@ public class ViewModeDialogBuilder {
                 case R.id.rb_workflow_run:
                     typeUnit = 2;
                     break;
-                case R.id.rb_workflow_job:
-                    typeUnit = 3;
-
             }
             listener.onClick(typeUnit);
         });

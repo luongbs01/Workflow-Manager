@@ -12,10 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.workflowmanager.R;
+import com.app.workflowmanager.activity.WorkflowActivity;
 import com.app.workflowmanager.activity.WorkflowRunActivity;
 import com.app.workflowmanager.dialog.BottomMenuDialogControl;
 import com.app.workflowmanager.entity.Workflow;
+import com.app.workflowmanager.utils.Configs;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder> {
@@ -26,6 +31,8 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
     private String owner;
     private String repo;
     private Callback mCallback;
+    private int sortMode = Configs.SortType.DATE;
+    private boolean ascending = false;
 
     public interface Callback {
         void onWorkflowOptionSelect(int option, int position);
@@ -62,21 +69,25 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
             holder.imageViewBadge.setImageDrawable(mContext.getResources().getDrawable(R.drawable.caution));
         }
 
+
         holder.imageViewShowMoreWorkflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomMenuDialogControl.getInstance().showMoreDialogWorkflow(mContext, selection -> mCallback.onWorkflowOptionSelect(selection, position));
+                if (mContext instanceof WorkflowActivity)
+                    BottomMenuDialogControl.getInstance().showMoreDialogWorkflow(mContext, selection -> mCallback.onWorkflowOptionSelect(selection, position));
             }
         });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(holder.itemView.getContext(), WorkflowRunActivity.class);
-                intent.putExtra("owner", owner);
-                intent.putExtra("repo", repo);
-                intent.putExtra("workflow_id", workflowList.get(position).getId());
-                holder.itemView.getContext().startActivity(intent);
+                if (mContext instanceof WorkflowActivity) {
+                    Intent intent = new Intent(holder.itemView.getContext(), WorkflowRunActivity.class);
+                    intent.putExtra("owner", owner);
+                    intent.putExtra("repo", repo);
+                    intent.putExtra("workflow_id", workflowList.get(position).getId());
+                    holder.itemView.getContext().startActivity(intent);
+                }
             }
         });
     }
@@ -84,6 +95,31 @@ public class WorkflowAdapter extends RecyclerView.Adapter<WorkflowAdapter.Holder
     @Override
     public int getItemCount() {
         return (workflowList != null) ? workflowList.size() : 0;
+    }
+
+    public void sortList(int sortMode, boolean ascending) {
+        switch (sortMode) {
+            case Configs.SortType.DATE:
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                if (ascending)
+                    Collections.sort(workflowList, (workflow1, workflow2) -> workflow1.getUpdated_at().compareTo(workflow2.getUpdated_at()));
+                else
+                    Collections.sort(workflowList, (workflow1, workflow2) -> workflow2.getUpdated_at().compareTo(workflow1.getUpdated_at()));
+                break;
+            case Configs.SortType.NAME:
+                if (ascending)
+                    Collections.sort(workflowList, (workflow1, workflow2) -> workflow1.getName().toUpperCase().compareTo(workflow2.getName().toUpperCase()));
+                else
+                    Collections.sort(workflowList, (workflow1, workflow2) -> workflow2.getName().toUpperCase().compareTo(workflow1.getName().toUpperCase()));
+                break;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void updateWorkflowDataList(List<Workflow> workflows) {
+        workflowList = workflows;
+        sortList(sortMode, ascending);
+        notifyDataSetChanged();
     }
 
     class Holder extends RecyclerView.ViewHolder {

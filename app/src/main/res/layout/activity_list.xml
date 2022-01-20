@@ -24,13 +24,13 @@
             android:src="@drawable/ic_back" />
 
         <TextView
-            android:id="@+id/tv_folder_name"
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_toStartOf="@+id/iv_change_type"
+            android:layout_toStartOf="@+id/iv_sort"
             android:layout_toEndOf="@id/iv_back"
             android:ellipsize="end"
             android:gravity="center_vertical"
@@ -38,21 +38,8 @@
             android:lineSpacingExtra="0sp"
             android:maxLines="1"
             android:text="List"
-            android:textColor="@color/color_1696F3"
+            android:textColor="@color/light_blue"
             android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/iv_change_type"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:layout_toStartOf="@id/iv_sort"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="5dp"
-            android:src="@drawable/ic_change_type"
-            android:visibility="gone"
-            app:tint="@color/color_1696F3" />
 
         <ImageView
             android:id="@+id/iv_sort"
@@ -72,6 +59,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@+id/iv_search"
+            android:alpha="0.2"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="7dp"
             android:src="@drawable/ic_list_view" />
@@ -86,18 +74,6 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="7dp"
             android:src="@drawable/ic_home_search" />
-
-        <ImageView
-            android:id="@+id/iv_done"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="5dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="7dp"
-            android:src="@drawable/ic_done"
-            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -141,83 +117,17 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/color_1696F3"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_title" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rl_title" />
 
-    <!--    <RelativeLayout-->
-    <!--        android:id="@+id/rl_no_video"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-    <!--        android:visibility="gone"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/rl_title">-->
-
-    <!--        <TextView-->
-    <!--            android:id="@+id/tv_no_video"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_above="@id/rl_add_video"-->
-    <!--            android:layout_centerInParent="true"-->
-    <!--            android:layout_marginBottom="20dp"-->
-    <!--            android:gravity="bottom"-->
-    <!--            android:text="@string/no_videos_in_the_playlist"-->
-    <!--            android:textColor="@color/color_787D85"-->
-    <!--            android:textSize="14sp" />-->
-
-    <!--        <RelativeLayout-->
-    <!--            android:id="@+id/rl_add_video"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_centerInParent="true"-->
-    <!--            android:background="@drawable/bg_add_new_video"-->
-    <!--            android:paddingStart="36dp"-->
-    <!--            android:paddingTop="10dp"-->
-    <!--            android:paddingEnd="36dp"-->
-    <!--            android:paddingBottom="10dp">-->
-
-    <!--            <ImageView-->
-    <!--                android:id="@+id/iv_add"-->
-    <!--                android:layout_width="25dp"-->
-    <!--                android:layout_height="25dp"-->
-    <!--                android:layout_centerVertical="true"-->
-    <!--                android:src="@drawable/ic_add_video" />-->
-
-    <!--            <TextView-->
-    <!--                android:id="@+id/tv_add_video"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_centerVertical="true"-->
-    <!--                android:layout_marginStart="10dp"-->
-    <!--                android:layout_toEndOf="@id/iv_add"-->
-    <!--                android:gravity="center"-->
-    <!--                android:text="@string/add_video"-->
-    <!--                android:textColor="@color/white"-->
-    <!--                android:textSize="17sp" />-->
-    <!--        </RelativeLayout>-->
-    <!--    </RelativeLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

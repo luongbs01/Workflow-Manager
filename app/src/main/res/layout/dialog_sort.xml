@@ -109,7 +109,7 @@
         android:background="@drawable/bg_ripple_click"
         android:padding="10dp"
         android:text="Ok"
-        android:textColor="@color/color_1696F3"
+        android:textColor="@color/light_blue"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rg_sort" />

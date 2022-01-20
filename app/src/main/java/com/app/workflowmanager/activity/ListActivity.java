@@ -18,9 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.workflowmanager.R;
 import com.app.workflowmanager.adapter.GithubRepoAdapter;
-import com.app.workflowmanager.adapter.StepAdapter;
 import com.app.workflowmanager.adapter.WorkflowAdapter;
-import com.app.workflowmanager.adapter.WorkflowJobAdapter;
 import com.app.workflowmanager.adapter.WorkflowRunAdapter;
 import com.app.workflowmanager.dialog.SortDialogBuilder;
 import com.app.workflowmanager.dialog.ViewModeDialogBuilder;
@@ -28,9 +26,7 @@ import com.app.workflowmanager.entity.GithubClient;
 import com.app.workflowmanager.entity.GithubRepo;
 import com.app.workflowmanager.entity.GithubWorkflow;
 import com.app.workflowmanager.entity.GithubWorkflowRun;
-import com.app.workflowmanager.entity.Step;
 import com.app.workflowmanager.entity.Workflow;
-import com.app.workflowmanager.entity.WorkflowJob;
 import com.app.workflowmanager.entity.WorkflowRun;
 import com.app.workflowmanager.utils.Configs;
 import com.app.workflowmanager.utils.Utility;
@@ -70,14 +66,13 @@ public class ListActivity extends AppCompatActivity {
     private WorkflowAdapter workflowAdapter;
     private List<WorkflowRun> workflowRunList = new ArrayList<>();
     private WorkflowRunAdapter workflowRunAdapter;
-    private List<WorkflowJob> workflowJobList = new ArrayList<>();
-    private WorkflowJobAdapter workflowJobAdapter;
-    private List<Step> stepList = new ArrayList<>();
-    private StepAdapter stepAdapter;
 
     private int mSortType = Configs.SortType.DATE;
     private int mViewMode = Configs.ViewMode.REPOSITORY;
     private boolean mIsSortAscending = false;
+
+    private boolean hasWorkflow = false;
+    private boolean hasWorkflowRun = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +123,8 @@ public class ListActivity extends AppCompatActivity {
                 Dialog dialog = new SortDialogBuilder(ListActivity.this, (typeUnit, ascending) -> {
                     if (mSortType != typeUnit || mIsSortAscending != ascending) {
                         githubRepoAdapter.sortList(typeUnit, ascending);
+                        workflowAdapter.sortList(typeUnit, ascending);
+                        workflowRunAdapter.sortList(typeUnit, ascending);
                         mSortType = typeUnit;
                         mIsSortAscending = ascending;
                     }
@@ -139,21 +136,24 @@ public class ListActivity extends AppCompatActivity {
         ivViewMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Dialog dialog = new ViewModeDialogBuilder(ListActivity.this, (viewMode) -> {
-                    switch (viewMode) {
-                        case 0:
-                            rvList.setAdapter(githubRepoAdapter);
-                            break;
-                        case 1:
-                            rvList.setAdapter(workflowAdapter);
-                            break;
-                        case 2:
-                            rvList.setAdapter(workflowRunAdapter);
-                            break;
-                    }
-                    mViewMode = viewMode;
-                }, mViewMode).build();
-                dialog.show();
+                if (hasWorkflow && hasWorkflowRun) {
+                    ivViewMode.setAlpha(1.0F);
+                    Dialog dialog = new ViewModeDialogBuilder(ListActivity.this, (viewMode) -> {
+                        switch (viewMode) {
+                            case 0:
+                                rvList.setAdapter(githubRepoAdapter);
+                                break;
+                            case 1:
+                                rvList.setAdapter(workflowAdapter);
+                                break;
+                            case 2:
+                                rvList.setAdapter(workflowRunAdapter);
+                                break;
+                        }
+                        mViewMode = viewMode;
+                    }, mViewMode).build();
+                    dialog.show();
+                }
             }
         });
 
@@ -166,8 +166,16 @@ public class ListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String query) {
-                List<GithubRepo> queryResult = Utility.searchRepoByName(githubRepoList, query);
-                githubRepoAdapter.updateRepoDataList(queryResult);
+                if (rvList.getAdapter() instanceof GithubRepoAdapter) {
+                    List<GithubRepo> queryResult = Utility.searchRepoByName(githubRepoList, query);
+                    githubRepoAdapter.updateRepoDataList(queryResult);
+                } else if (rvList.getAdapter() instanceof WorkflowAdapter) {
+                    List<Workflow> queryResult = Utility.searchWorkflowByName(workflowList, query);
+                    workflowAdapter.updateWorkflowDataList(queryResult);
+                } else if (rvList.getAdapter() instanceof WorkflowRunAdapter) {
+                    List<WorkflowRun> queryResult = Utility.searchWorkflowRunByName(workflowRunList, query);
+                    workflowRunAdapter.updateWorkflowRunDataList(queryResult);
+                }
                 return false;
             }
         });
@@ -248,6 +256,7 @@ public class ListActivity extends AppCompatActivity {
                                         workflowList.addAll(dataResponses.get(i).getWorkflows());
                                     }
                                 }
+                                hasWorkflow = true;
                                 workflowAdapter = new WorkflowAdapter(ListActivity.this, workflowList);
                             }
                         },
@@ -291,6 +300,7 @@ public class ListActivity extends AppCompatActivity {
                                         workflowRunList.addAll(dataResponses.get(i).getWorkflow_runs());
                                     }
                                 }
+                                hasWorkflowRun = true;
                                 workflowRunAdapter = new WorkflowRunAdapter(ListActivity.this, workflowRunList);
                             }
                         },
