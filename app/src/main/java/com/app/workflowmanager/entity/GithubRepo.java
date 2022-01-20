@@ -10,7 +10,6 @@ public class GithubRepo {
     private String created_at;
     private String updated_at;
 
-
     public int getId() {
         return id;
     }

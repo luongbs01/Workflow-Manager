@@ -32,13 +32,21 @@ public class WorkflowJobActivity extends AppCompatActivity implements WorkflowJo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workflow_job);
+        initializeView();
+
+        run_id = getIntent().getIntExtra("run_id", 0);
+
+        fetchData();
+    }
+
+    private void initializeView() {
         workflowJobListRecyclerView = findViewById(R.id.rv_workflow_job_list);
         workflowJobListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowJobActivity.this));
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(workflowJobListRecyclerView.getContext(), 1);
         workflowJobListRecyclerView.addItemDecoration(mDividerItemDecoration);
+    }
 
-        run_id = getIntent().getIntExtra("run_id", 0);
-
+    private void fetchData() {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
                 .addConverterFactory(GsonConverterFactory.create());

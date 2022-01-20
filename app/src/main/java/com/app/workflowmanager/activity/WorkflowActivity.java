@@ -48,16 +48,24 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workflow);
+        initializeView();
+
+        owner = getIntent().getStringExtra("owner");
+        repo = getIntent().getStringExtra("repo");
+        fetchData();
+
+    }
+
+    private void initializeView() {
         workflowListRecyclerView = findViewById(R.id.rv_workflow_list);
         workflowListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowActivity.this));
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(workflowListRecyclerView.getContext(), 1);
         workflowListRecyclerView.addItemDecoration(mDividerItemDecoration);
         cardViewWorkflow = findViewById(R.id.cv_workflows);
         cardViewWorkflow.setActivated(true);
+    }
 
-        owner = getIntent().getStringExtra("owner");
-        repo = getIntent().getStringExtra("repo");
-
+    private void fetchData() {
         okHttpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -94,7 +102,6 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
                 Toast.makeText(WorkflowActivity.this, "No workflow", Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     @Override

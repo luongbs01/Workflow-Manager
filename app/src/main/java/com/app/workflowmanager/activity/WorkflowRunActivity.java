@@ -51,17 +51,26 @@ public class WorkflowRunActivity extends AppCompatActivity implements WorkflowRu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workflow_run);
 
+        initializeView();
+
+        owner = getIntent().getStringExtra("owner");
+        repo = getIntent().getStringExtra("repo");
+        workflow_id = getIntent().getIntExtra("workflow_id", 0);
+
+        fetchData();
+
+    }
+
+    private void initializeView() {
         workflowRunListRecyclerView = findViewById(R.id.rv_workflow_run_list);
         workflowRunListRecyclerView.setLayoutManager(new LinearLayoutManager(WorkflowRunActivity.this));
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(workflowRunListRecyclerView.getContext(), 1);
         workflowRunListRecyclerView.addItemDecoration(mDividerItemDecoration);
         cardViewWorkflowRun = findViewById(R.id.cv_workflow_runs);
         cardViewWorkflowRun.setActivated(true);
+    }
 
-        owner = getIntent().getStringExtra("owner");
-        repo = getIntent().getStringExtra("repo");
-        workflow_id = getIntent().getIntExtra("workflow_id", 0);
-
+    private void fetchData() {
         okHttpClient = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
             public okhttp3.Response intercept(Chain chain) throws IOException {
@@ -99,7 +108,6 @@ public class WorkflowRunActivity extends AppCompatActivity implements WorkflowRu
                 Toast.makeText(WorkflowRunActivity.this, "No workflow", Toast.LENGTH_LONG).show();
             }
         });
-
     }
 
     @Override

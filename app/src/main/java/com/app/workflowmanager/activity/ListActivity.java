@@ -78,6 +78,18 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        initializeView();
+
+        initializeEvent();
+
+        try {
+            fetchData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initializeView() {
         ivSearch = findViewById(R.id.iv_search);
         rlTitle = findViewById(R.id.rl_title);
         rlSearchView = findViewById(R.id.rl_search_view);
@@ -90,7 +102,9 @@ public class ListActivity extends AppCompatActivity {
         rvList.setLayoutManager(new LinearLayoutManager(ListActivity.this));
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(rvList.getContext(), 1);
         rvList.addItemDecoration(mDividerItemDecoration);
+    }
 
+    private void initializeEvent() {
         ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,6 +167,8 @@ public class ListActivity extends AppCompatActivity {
                         mViewMode = viewMode;
                     }, mViewMode).build();
                     dialog.show();
+                } else {
+                    Toast.makeText(ListActivity.this, "Fetching data, please wait!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -179,12 +195,6 @@ public class ListActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        try {
-            fetchData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void fetchData() throws IOException {

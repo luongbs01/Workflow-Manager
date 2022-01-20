@@ -22,8 +22,16 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        initializeView();
+        initializeEvent();
+    }
+
+    private void initializeView() {
         buttonSignIn = findViewById(R.id.bt_sign_in);
         tokenInputEditText = findViewById(R.id.token_input_edit_text);
+    }
+
+    private void initializeEvent() {
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

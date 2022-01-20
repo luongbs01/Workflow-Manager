@@ -61,50 +61,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         sharedPreferences = getSharedPreferences(getResources().getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE);
-        noRepoConstraintLayout = findViewById(R.id.layout_no_repo);
-        signInAgainButton = findViewById(R.id.bt_sign_in_again);
+        initializeView();
+        initializeEvent();
+        fetchData();
+    }
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        drawerLayout = findViewById(R.id.activity_main_drawer);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(drawerToggle);
-
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem view) {
-                view.setCheckable(false);
-                drawerLayout.closeDrawers();
-                Intent intent;
-                switch (view.getItemId()) {
-                    case R.id.log_out:
-                        intent = new Intent(MainActivity.this, SignInActivity.class);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("access_token", null);
-                        editor.apply();
-                        startActivity(intent);
-                        break;
-                    case R.id.list_mode:
-                        intent = new Intent(MainActivity.this, ListActivity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putParcelableArrayList("repoList", (ArrayList) repoList);
-//                        intent.putExtras(bundle);
-                        startActivity(intent);
-                }
-                return true;
-            }
-        });
-
-        repoListRecyclerView = findViewById(R.id.rv_repo_list);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
-        repoListRecyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(repoListRecyclerView.getContext(), 1);
-        repoListRecyclerView.addItemDecoration(mDividerItemDecoration);
-
+    private void fetchData() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
                     .addHeader("Authorization", "token "
@@ -137,6 +99,52 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void initializeEvent() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem view) {
+                view.setCheckable(false);
+                drawerLayout.closeDrawers();
+                Intent intent;
+                switch (view.getItemId()) {
+                    case R.id.log_out:
+                        intent = new Intent(MainActivity.this, SignInActivity.class);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("access_token", null);
+                        editor.apply();
+                        startActivity(intent);
+                        break;
+                    case R.id.list_mode:
+                        intent = new Intent(MainActivity.this, ListActivity.class);
+                        startActivity(intent);
+                }
+                return true;
+            }
+        });
+    }
+
+    private void initializeView() {
+        noRepoConstraintLayout = findViewById(R.id.layout_no_repo);
+        signInAgainButton = findViewById(R.id.bt_sign_in_again);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        drawerLayout = findViewById(R.id.activity_main_drawer);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(drawerToggle);
+
+        repoListRecyclerView = findViewById(R.id.rv_repo_list);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+        repoListRecyclerView.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(repoListRecyclerView.getContext(), 1);
+        repoListRecyclerView.addItemDecoration(mDividerItemDecoration);
+
+        navigationView = findViewById(R.id.nav_view);
     }
 
     private void DisplayLayout() {

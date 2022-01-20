@@ -22,12 +22,7 @@ public class SortDialogBuilder {
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.dialog_sort);
 
-        rbName = mDialog.findViewById(R.id.rb_name);
-        rbDate = mDialog.findViewById(R.id.rb_date);
-        rgUnit = mDialog.findViewById(R.id.rg_unit);
-        rgSort = mDialog.findViewById(R.id.rg_sort);
-        rbAscending = mDialog.findViewById(R.id.rb_ascending);
-        rbDescending = mDialog.findViewById(R.id.rb_descending);
+        initializeView();
 
         switch (sortType) {
             case 0:
@@ -50,6 +45,15 @@ public class SortDialogBuilder {
             boolean sort = rgSort.getCheckedRadioButtonId() == R.id.rb_ascending;
             listener.onClick(typeUnit, sort);
         });
+    }
+
+    private void initializeView() {
+        rbName = mDialog.findViewById(R.id.rb_name);
+        rbDate = mDialog.findViewById(R.id.rb_date);
+        rgUnit = mDialog.findViewById(R.id.rg_unit);
+        rgSort = mDialog.findViewById(R.id.rg_sort);
+        rbAscending = mDialog.findViewById(R.id.rb_ascending);
+        rbDescending = mDialog.findViewById(R.id.rb_descending);
     }
 
     public Dialog build() {

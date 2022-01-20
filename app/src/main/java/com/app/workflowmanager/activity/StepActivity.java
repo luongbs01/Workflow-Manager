@@ -26,6 +26,10 @@ public class StepActivity extends AppCompatActivity implements StepAdapter.Callb
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
+        initializeView();
+    }
+
+    private void initializeView() {
         stepListRecyclerView = findViewById(R.id.rv_step_list);
         stepListRecyclerView.setLayoutManager(new LinearLayoutManager(StepActivity.this));
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(stepListRecyclerView.getContext(), 1);
