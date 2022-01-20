@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.GithubClient;
 import com.app.workflowmanager.R;
 import com.app.workflowmanager.adapter.WorkflowAdapter;
 import com.app.workflowmanager.dialog.InfoDialogBuilder;
-import com.app.workflowmanager.entity.GithubClient;
-import com.app.workflowmanager.entity.GithubWorkflow;
 import com.app.workflowmanager.entity.Workflow;
+import com.app.workflowmanager.entity.WorkflowWrapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapter.Callback {
 
     private RecyclerView workflowListRecyclerView;
+    private WorkflowAdapter workflowAdapter;
     private CardView cardViewWorkflow;
     private List<Workflow> workflowList;
 
@@ -86,19 +87,20 @@ public class WorkflowActivity extends AppCompatActivity implements WorkflowAdapt
 
         client = retrofit.create(GithubClient.class);
 
-        Call<GithubWorkflow> workflowCall = client.workflow(owner, repo);
-        workflowCall.enqueue(new Callback<GithubWorkflow>() {
+        Call<WorkflowWrapper> workflowCall = client.workflow(owner, repo);
+        workflowCall.enqueue(new Callback<WorkflowWrapper>() {
             @Override
-            public void onResponse(Call<GithubWorkflow> call, Response<GithubWorkflow> response) {
+            public void onResponse(Call<WorkflowWrapper> call, Response<WorkflowWrapper> response) {
                 workflowList = response.body().getWorkflows();
-                workflowListRecyclerView.setAdapter(new WorkflowAdapter(WorkflowActivity.this, workflowList, owner, repo, WorkflowActivity.this));
+                workflowAdapter = new WorkflowAdapter(WorkflowActivity.this, workflowList, owner, repo, WorkflowActivity.this);
+                workflowListRecyclerView.setAdapter(workflowAdapter);
                 if (workflowList.size() == 0) {
                     Toast.makeText(WorkflowActivity.this, "No workflow", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<GithubWorkflow> call, Throwable t) {
+            public void onFailure(Call<WorkflowWrapper> call, Throwable t) {
                 Toast.makeText(WorkflowActivity.this, "No workflow", Toast.LENGTH_LONG).show();
             }
         });

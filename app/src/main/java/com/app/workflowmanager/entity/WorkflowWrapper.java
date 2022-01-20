@@ -2,15 +2,15 @@ package com.app.workflowmanager.entity;
 
 import java.util.List;
 
-public class GithubWorkflowJob {
+public class WorkflowWrapper {
     private int total_count;
-    private List<WorkflowJob> jobs;
+    private List<Workflow> workflows;
 
     public int getTotal_count() {
         return total_count;
     }
 
-    public List<WorkflowJob> getJobs() {
-        return jobs;
+    public List<Workflow> getWorkflows() {
+        return workflows;
     }
 }

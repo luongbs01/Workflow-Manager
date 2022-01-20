@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.GithubClient;
 import com.app.workflowmanager.R;
 import com.app.workflowmanager.adapter.WorkflowJobAdapter;
 import com.app.workflowmanager.dialog.InfoDialogBuilder;
-import com.app.workflowmanager.entity.GithubClient;
-import com.app.workflowmanager.entity.GithubWorkflowJob;
 import com.app.workflowmanager.entity.WorkflowJob;
+import com.app.workflowmanager.entity.WorkflowJobWrapper;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WorkflowJobActivity extends AppCompatActivity implements WorkflowJobAdapter.Callback {
 
     private RecyclerView workflowJobListRecyclerView;
+    private WorkflowJobAdapter workflowJobAdapter;
     private List<WorkflowJob> workflowJobList;
     private int run_id;
 
@@ -54,19 +55,20 @@ public class WorkflowJobActivity extends AppCompatActivity implements WorkflowJo
         Retrofit retrofit = builder.build();
 
         GithubClient client = retrofit.create(GithubClient.class);
-        Call<GithubWorkflowJob> workflowJobCall = client.workflowJob(getIntent().getStringExtra("owner"),
+        Call<WorkflowJobWrapper> workflowJobCall = client.workflowJob(getIntent().getStringExtra("owner"),
                 getIntent().getStringExtra("repo"),
                 run_id);
-        workflowJobCall.enqueue(new Callback<GithubWorkflowJob>() {
+        workflowJobCall.enqueue(new Callback<WorkflowJobWrapper>() {
             @Override
-            public void onResponse(Call<GithubWorkflowJob> call, Response<GithubWorkflowJob> response) {
+            public void onResponse(Call<WorkflowJobWrapper> call, Response<WorkflowJobWrapper> response) {
                 assert response.body() != null;
                 workflowJobList = response.body().getJobs();
-                workflowJobListRecyclerView.setAdapter(new WorkflowJobAdapter(WorkflowJobActivity.this, workflowJobList, WorkflowJobActivity.this));
+                workflowJobAdapter = new WorkflowJobAdapter(WorkflowJobActivity.this, workflowJobList, WorkflowJobActivity.this);
+                workflowJobListRecyclerView.setAdapter(workflowJobAdapter);
             }
 
             @Override
-            public void onFailure(Call<GithubWorkflowJob> call, Throwable t) {
+            public void onFailure(Call<WorkflowJobWrapper> call, Throwable t) {
 
             }
         });

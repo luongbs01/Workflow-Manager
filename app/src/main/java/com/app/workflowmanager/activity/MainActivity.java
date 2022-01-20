@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.GithubClient;
 import com.app.workflowmanager.R;
 import com.app.workflowmanager.adapter.GithubRepoAdapter;
-import com.app.workflowmanager.entity.GithubClient;
 import com.app.workflowmanager.entity.GithubRepo;
 import com.google.android.material.navigation.NavigationView;
 
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private RecyclerView repoListRecyclerView;
+    private GithubRepoAdapter githubRepoAdapter;
     private SharedPreferences sharedPreferences;
     private List<GithubRepo> repoList;
 
@@ -88,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<GithubRepo>> call, Response<List<GithubRepo>> response) {
                 repoList = response.body();
-                repoListRecyclerView.setAdapter(new GithubRepoAdapter(MainActivity.this, repoList));
+                githubRepoAdapter = new GithubRepoAdapter(MainActivity.this, repoList);
+                repoListRecyclerView.setAdapter(githubRepoAdapter);
                 if (repoList == null) {
                     DisplayLayout();
                 }

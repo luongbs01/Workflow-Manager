@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.workflowmanager.GithubClient;
 import com.app.workflowmanager.R;
 import com.app.workflowmanager.adapter.WorkflowRunAdapter;
 import com.app.workflowmanager.dialog.InfoDialogBuilder;
-import com.app.workflowmanager.entity.GithubClient;
-import com.app.workflowmanager.entity.GithubWorkflowRun;
 import com.app.workflowmanager.entity.WorkflowRun;
+import com.app.workflowmanager.entity.WorkflowRunWrapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -90,10 +90,10 @@ public class WorkflowRunActivity extends AppCompatActivity implements WorkflowRu
 
         client = retrofit.create(GithubClient.class);
 
-        Call<GithubWorkflowRun> workflowRunCall = client.workflowRun(owner, repo, workflow_id);
-        workflowRunCall.enqueue(new Callback<GithubWorkflowRun>() {
+        Call<WorkflowRunWrapper> workflowRunCall = client.workflowRun(owner, repo, workflow_id);
+        workflowRunCall.enqueue(new Callback<WorkflowRunWrapper>() {
             @Override
-            public void onResponse(Call<GithubWorkflowRun> call, Response<GithubWorkflowRun> response) {
+            public void onResponse(Call<WorkflowRunWrapper> call, Response<WorkflowRunWrapper> response) {
                 workflowRunList = response.body().getWorkflow_runs();
                 adapter = new WorkflowRunAdapter(WorkflowRunActivity.this, workflowRunList,
                         owner, repo, WorkflowRunActivity.this);
@@ -104,7 +104,7 @@ public class WorkflowRunActivity extends AppCompatActivity implements WorkflowRu
             }
 
             @Override
-            public void onFailure(Call<GithubWorkflowRun> call, Throwable t) {
+            public void onFailure(Call<WorkflowRunWrapper> call, Throwable t) {
                 Toast.makeText(WorkflowRunActivity.this, "No workflow", Toast.LENGTH_LONG).show();
             }
         });
